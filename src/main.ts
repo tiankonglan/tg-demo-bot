@@ -8,8 +8,8 @@ import {
     handleDisconnectCommand,
     handleSendTXCommand,
     handleShowMyWalletCommand,
-    handleGetNftItemCommand,
-    handleMintNftCommand
+    handleGetCounterCommand,
+    handleIncrementCounterCommand
 } from './commands-handlers';
 // import { initRedisClient } from './ton-connect/storage';
 import TelegramBot from 'node-telegram-bot-api';
@@ -49,8 +49,9 @@ async function main(): Promise<void> {
 
     bot.onText(/\/my_wallet/, handleShowMyWalletCommand);
 
-    bot.onText(/\/get_nft_info/, handleGetNftItemCommand);
-    bot.onText(/\/mint_nft/, handleMintNftCommand);
+    bot.onText(/\/get_nft_info/, handleGetCounterCommand);
+    
+    bot.onText(/\/mint_nft/, handleIncrementCounterCommand);
 
     bot.onText(/\/start/, (msg: TelegramBot.Message) => {
         bot.sendMessage(

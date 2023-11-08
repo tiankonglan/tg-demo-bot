@@ -197,7 +197,7 @@ export async function handleShowMyWalletCommand(msg: TelegramBot.Message): Promi
 
 }
 
-export async function handleGetNftItemCommand(msg: TelegramBot.Message): Promise<void> {
+export async function handleGetCounterCommand(msg: TelegramBot.Message): Promise<void> {
     const chatId = msg.chat.id;
 
     const client = new TonClient({
@@ -215,7 +215,7 @@ export async function handleGetNftItemCommand(msg: TelegramBot.Message): Promise
     await bot.sendMessage(chatId, 'counter value : ' + val);
 }
 
-export async function handleMintNftCommand(msg: TelegramBot.Message): Promise<void> {
+export async function handleIncrementCounterCommand(msg: TelegramBot.Message): Promise<void> {
     const chatId = msg.chat.id;
 
     const connector = getConnector(chatId);
@@ -254,62 +254,34 @@ export async function handleMintNftCommand(msg: TelegramBot.Message): Promise<vo
         }
     }
 
-    const val = counterContract?.sendIncrement(sender);
-    console.log(val)
+    counterContract?.sendIncrement(sender);
 
-    /*
-    const contract = client.open(connector.wallet);
-    const seqno = await contract.getSeqno();
-    await contract.sendTransfer({
-        seqno,
-            secretKey: wallet.keyPair.secretKey,
-            messages: [
-                internal({
-                    value: "0.05",
-                    to: process.env.COLLECTION_ADDRESS,
-                    body: createMintBody(params),
-                }),
-            ],
-            sendMode: SendMode.IGNORE_ERRORS + SendMode.PAY_GAS_SEPARATELY,
-    });
-
-    const collectionAddress = process.env.COLLECTION_ADDRESS
-    const response = await client.runMethod(
-        collectionAddress,
-        "get_nft_address_by_index",
-        [{ type: "int", value: BigInt(0) }]
-    );
-
-    const addr =  response.stack.readAddress();
-    
-    await bot.sendMessage(chatId, 'nft item addr: ' + addr);
-
-    */
+    await bot.sendMessage(chatId, "increment counter success");
 }
 
-export type mintParams = {
-    queryId: number | null,
-    itemOwnerAddress: Address,
-    itemIndex: number,
-    amount: bigint,
-    commonContentUrl: string
-}
+// export type mintParams = {
+//     queryId: number | null,
+//     itemOwnerAddress: Address,
+//     itemIndex: number,
+//     amount: bigint,
+//     commonContentUrl: string
+// }
 
-function createMintBody(params: mintParams): Cell {
-    const body = beginCell();
-    body.storeUint(1, 32);
-    body.storeUint(params.queryId || 0, 64);
-    body.storeUint(params.itemIndex, 64);
-    body.storeCoins(params.amount);
+// function createMintBody(params: mintParams): Cell {
+//     const body = beginCell();
+//     body.storeUint(1, 32);
+//     body.storeUint(params.queryId || 0, 64);
+//     body.storeUint(params.itemIndex, 64);
+//     body.storeCoins(params.amount);
 
-    const nftItemContent = beginCell();
-    nftItemContent.storeAddress(params.itemOwnerAddress);
+//     const nftItemContent = beginCell();
+//     nftItemContent.storeAddress(params.itemOwnerAddress);
 
-    const uriContent = beginCell();
-    uriContent.storeBuffer(Buffer.from(params.commonContentUrl));
-    nftItemContent.storeRef(uriContent.endCell());
+//     const uriContent = beginCell();
+//     uriContent.storeBuffer(Buffer.from(params.commonContentUrl));
+//     nftItemContent.storeRef(uriContent.endCell());
 
-    body.storeRef(nftItemContent.endCell());
-    return body.endCell();
-}
+//     body.storeRef(nftItemContent.endCell());
+//     return body.endCell();
+// }
 
