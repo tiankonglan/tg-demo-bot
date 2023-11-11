@@ -49,9 +49,9 @@ async function main(): Promise<void> {
 
     bot.onText(/\/my_wallet/, handleShowMyWalletCommand);
 
-    bot.onText(/\/get_nft_info/, handleGetCounterCommand);
+    bot.onText(/\/get_counter/, handleGetCounterCommand);
     
-    bot.onText(/\/mint_nft/, handleIncrementCounterCommand);
+    bot.onText(/\/increment_counter/, handleIncrementCounterCommand);
 
     bot.onText(/\/start/, (msg: TelegramBot.Message) => {
         bot.sendMessage(
@@ -64,9 +64,8 @@ Commands list:
 /my_wallet - Show connected wallet
 /send_tx - Send transaction
 /disconnect - Disconnect from the wallet
-/get_nft_info - Get NFT Info 
-/mint_nft - Mint NFT
-/
+/get_counter - Get Counter Info 
+/increment_counter - Increment Counter 
 
 GitHub: https://github.com/ton-connect/demo-telegram-bot
 `
